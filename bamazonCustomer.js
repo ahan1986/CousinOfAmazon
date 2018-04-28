@@ -45,12 +45,13 @@ function askingTwoQuestions() {
                     
                         console.log("You have asked to buy " + numbered + ". \nThe total price is $" + (parseInt(res[0].price) * numbered) + ".00\n\n\n");
 
-                        var setWhat = "stock_quantity = "+newStock;
-                        var atWhatItemId = answer.firstQuestion;
+                        var setWhat = "stock_quantity = " + newStock;
+                        var atWhatItemId = "item_id = " + answer.firstQuestion;
 
                         conn.query("UPDATE products SET "+ setWhat +" WHERE "+atWhatItemId, function (err, res1) {
                             if(err) console.log("failed");
                             
+                            console.log(res1);
                         });
 
                         conn.query("SELECT * FROM products WHERE item_id = " + answer.firstQuestion, function(err, res2) {
