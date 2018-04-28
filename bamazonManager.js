@@ -31,7 +31,47 @@ function repeatToFront() {
     }).then(function(response) {
         var list = response.listOfSetMenu;
 
-        conn.query("")
+
+
+    //Switch
+    switch(list) {
+        case "View Products for Sale":
+        conn.query("SELECT * FROM products", function(req, res){
+            var lineSpace = '\n =============== \n';
+            for (var i =0; i<res.length; i++) {
+                console.log(`Item ID: ${res[i].item_id} \nNames: ${res[i].product_name} \nPrices: ${res[i].price} \nQuantities: ${res[i].stock_quantity} ${lineSpace}`);
+            };
+        })
+
+        break;
+
+        case "View Low Inventory":
+
+        conn.query("SELECT * FROM products WHERE stock_quantity < 5", function (req, res) {
+            var lineSpace = '\n =============== \n';
+            for (var i =0; i<res.length; i++) {
+                console.log(`Item ID: ${res[i].item_id} \nNames: ${res[i].product_name} \nPrices: ${res[i].price} \nQuantities: ${res[i].stock_quantity} ${lineSpace}`);
+            };
+        })
+
+        break;
+
+        case "Add to Inventory":
+        for (var i =0; i<res.length; i++) {
+            console.log(res[i].item_id);
+        };
+        break;
+
+        case "Add New Product":
+        for (var i =0; i<res.length; i++) {
+            console.log(res[i].item_id);
+        };
+        break;
+
+
+    }
+
+        
     })
 //====================Inquirer END ===============================
 
