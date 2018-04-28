@@ -26,29 +26,44 @@ function askingTwoQuestions() {
 
         conn.query('SELECT * FROM products WHERE ?', { item_id: answer.firstQuestion }, function (err, res) {
 
-        function incaseOfInsufficient() {
-            inquirer.prompt({
-                name: "secondQuestion",
-                type: "input",
-                message: "You have selected to buy ID #" + answer.firstQuestion + ", which is \n\n" + res[0].product_name + ". \n\nOne of this product is $" + res[0].price + "\n\nHow many would you like to buy?  "
-            }).then(function (answer2) {
-                //parsing the answer to a number
-                var numbered = parseInt(answer2.secondQuestion);
+            function incaseOfInsufficient() {
+                inquirer.prompt({
+                    name: "secondQuestion",
+                    type: "input",
+                    message: "You have selected to buy ID #" + answer.firstQuestion + ", which is \n\n" + res[0].product_name + ". \n\nOne of this product is $" + res[0].price + "\n\nHow many would you like to buy?  "
+                }).then(function (answer2) {
+                    //parsing the answer to a number
+                    var numbered = parseInt(answer2.secondQuestion);
 
-                if ((numbered > parseInt(res[0].stock_quantity))) {
-                    console.log("Insufficient quantity!");
+                    if ((numbered > parseInt(res[0].stock_quantity))) {
+                        console.log("Insufficient quantity!");
 
-                    setTimeout(incaseOfInsufficient, 2000);
+                        setTimeout(incaseOfInsufficient, 2000);
+
+                    } else {
+                        var newStock = (parseInt(res[0].stock_quantity) - numbered);
                     
-                } else {
-                    console.log("You have asked to buy " + numbered + ". \nThe total price is $" + (parseInt(res[0].price) * numbered)+".00\n\n\n");
-                    
-                    setTimeout(buyAgain, 2000);
-                }
+                        console.log("You have asked to buy " + numbered + ". \nThe total price is $" + (parseInt(res[0].price) * numbered) + ".00\n\n\n");
 
-            });
-        };
-        incaseOfInsufficient();
+                        var setWhat = "stock_quantity = "+newStock;
+                        var atWhatItemId = answer.firstQuestion;
+
+                        conn.query("UPDATE products SET "+ setWhat +" WHERE "+atWhatItemId, function (err, res1) {
+                            if(err) console.log("failed");
+                            
+                        });
+
+                        conn.query("SELECT * FROM products WHERE item_id = " + answer.firstQuestion, function(err, res2) {
+                            if(err) console.log("error 2");
+                            var updatedStock = res2[0].stock_quantity;
+                            console.log(`We have ${updatedStock} of ${res[0].product_name} left.`);
+                        })
+                        setTimeout(buyAgain, 2000);
+                    }
+
+                });
+            };
+            incaseOfInsufficient();
             //=====query   end   
 
         });
@@ -58,15 +73,16 @@ function askingTwoQuestions() {
 
 function buyAgain() {
     inquirer.prompt({
-        name:"again",
-        type:"list",
+        name: "again",
+        type: "list",
         message: "Would you like to buy again?",
         choices: [
             "Yes",
             "No"
         ]
-    }).then(function(res) {
-        if(res === "Yes") {
+    }).then(function (res) {
+        
+        if (res.again === "Yes") {
             askingTwoQuestions()
         } else {
             console.log("Thank You for shopping at Bamazon!")
