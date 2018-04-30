@@ -6,7 +6,7 @@ const conn = mysql.createConnection({
     host: "localhost",
     port: 3306,
     user: "root",
-    password: "vtr4k8hp",
+    password: "",
     database: "bamazon"
 });
 
@@ -41,18 +41,23 @@ function repeatToFront() {
                         console.log(`Item ID: ${res[i].item_id} \nNames: ${res[i].product_name} \nPrices: ${res[i].price} \nQuantities: ${res[i].stock_quantity} ${lineSpace}`);
                     };
                 })
-
+                setTimeout(repeatToFront, 2000);
                 break;
 
             case "View Low Inventory":
 
                 conn.query("SELECT * FROM products WHERE stock_quantity < 5", function (req, res) {
                     var lineSpace = '\n =============== \n';
+                    
+                    if(res[0] === undefined) {
+                        console.log("\nInventory is fully stocked. Nothing is below 5!");
+                    }
                     for (var i = 0; i < res.length; i++) {
+                        console.log("\nBelow item needs to be stocked!!\n");
                         console.log(`Item ID: ${res[i].item_id} \nNames: ${res[i].product_name} \nPrices: ${res[i].price} \nQuantities: ${res[i].stock_quantity} ${lineSpace}`);
                     };
                 })
-
+                setTimeout(repeatToFront, 2000);
                 break;
 
             case "Add to Inventory":
