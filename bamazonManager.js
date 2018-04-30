@@ -6,7 +6,7 @@ const conn = mysql.createConnection({
     host: "localhost",
     port: 3306,
     user: "root",
-    password: "",
+    password: "vtr4k8hp",
     database: "bamazon"
 });
 
@@ -106,15 +106,46 @@ function repeatToFront() {
                 break;
 
             case "Add New Product":
-                for (var i = 0; i < res.length; i++) {
-                    console.log(res[i].item_id);
-                };
+
+            inquirer.prompt([
+                {
+                    name: "input",
+                    message: "What product would you like to add to your inventory?",
+                    type: "input"
+                },
+                {
+                    type: "input",
+                    message: "What is the price for this item?",
+                    name: "price"
+                },
+                {
+                    type: "input",
+                    message: "How many of this item would you like to stock into your inventory?",
+                    name: "stock"
+                },
+                {
+                    type: "input",
+                    message: "What is the Department Name for this item?",
+                    name: "depart"
+                },
+                {
+                    type: "confirm",
+                    message: "Are you sure?",
+                    name: "confirm",
+                    default: true
+                }
+            ]).then(function(response) {
+                const a = response.input, b = response.depart, c = response.price, d = response.stock;
+                
+
+                conn.query(`INSERT INTO products (product_name, department_name, price, stock_quantity) VALUES ('${a}', '${b}', '${c}', '${d}')`);
+
+                console.log(`\nNew Product has been added!\n=-=-=-=-=-=-=-=\nProduct: ${a}\nDepartment: ${b}\nPrice: ${c}\nStock Quantity: ${d}\n`);
+
+                setTimeout(repeatToFront, 4000);
+            });
                 break;
-
-
         }
-
-
     })
     //====================Inquirer END ===============================
 
