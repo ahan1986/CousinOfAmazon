@@ -63,17 +63,39 @@ function repeatToFront() {
                     type: "list",
                     message: "Which of the items would you like to add more to stock?",
                     choices: [
-                        res1[0].product_name,
-                        res1[1].product_name,
-                        res1[2].product_name,
-                        res1[3].product_name,
-                        res1[4].product_name,
-                        res1[5].product_name,
-                        res1[6].product_name,
-                        res1[7].product_name,
-                        res1[8].product_name,
-                        res1[9].product_name
+                        "Id#: "+res1[0].item_id+ " Product: " + res1[0].product_name,
+                        "Id#: "+res1[1].item_id+ " Product: " + res1[1].product_name,
+                        "Id#: "+res1[2].item_id+ " Product: " + res1[2].product_name,
+                        "Id#: "+res1[3].item_id+ " Product: " + res1[3].product_name,
+                        "Id#: "+res1[4].item_id+ " Product: " + res1[4].product_name,
+                        "Id#: "+res1[5].item_id+ " Product: " + res1[5].product_name,
+                        "Id#: "+res1[6].item_id+ " Product: " + res1[6].product_name,
+                        "Id#: "+res1[7].item_id+ " Product: " + res1[7].product_name,
+                        "Id#: "+res1[8].item_id+ " Product: " + res1[8].product_name,
+                        "Id#: "+res1[9].item_id+ " Product: " + res1[9].product_name,
                     ]
+                }).then(function(res11) {
+                    
+                    inquirer.prompt({
+                        name: "adding1",
+                        type: "input",
+                        message: "How much would you like to add to " + res11.adding + "?"
+                    }).then(function(res111) {
+                        
+                        const regex = /(?<=Id#: )(.*)(?= Product:)/g;
+                        const selected = parseInt(res11.adding.match(regex));
+                        const originalQuantity = parseInt(res1[0].stock_quantity);
+                        const addedQuantity = (parseInt(res111.adding1) + originalQuantity);
+                        console.log(addedQuantity);
+
+                        conn.query(`UPDATE products SET stock_quantity = ${addedQuantity} WHERE item_id = ${selected}`, function(req,res) {
+
+                            console.log(`Updated Product to ${addedQuantity}`);
+                        });
+                        
+                        setTimeout(repeatToFront, 2000);
+                    })
+
                 })
             });
                 break;
