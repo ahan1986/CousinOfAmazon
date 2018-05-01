@@ -42,7 +42,7 @@ function askingTwoQuestions() {
         //using regex positive lookahead and look behind to grab whats between ID and Product from the choices
         var regex = /(?<=ID#: )(.*)(?= Product:)/g;
         var selected = answer.firstQuestion.match(regex);
-        console.log(answer.firstQuestion);
+        
         conn.query('SELECT * FROM products WHERE ?', { item_id: selected }, function (err, res) {
             console.log(res);
             function incaseOfInsufficient() {
@@ -53,7 +53,6 @@ function askingTwoQuestions() {
                 }).then(function (answer2) {
                     //parsing the answer to a number
                     var numbered = parseInt(answer2.secondQuestion);
-                    console.log(numbered);
 
                     if ((numbered > parseInt(res[0].stock_quantity))) {
                         console.log("Insufficient quantity!");
@@ -62,7 +61,6 @@ function askingTwoQuestions() {
 
                     } else {
                         
-
                         var newStock = (parseInt(res[0].stock_quantity) - numbered);
                     
                         console.log("You have asked to buy " + numbered + ". \nThe total price is $" + (parseInt(res[0].price) * numbered) + ".00\n\n\n");
@@ -97,7 +95,7 @@ function askingTwoQuestions() {
 });// end of part 2 of getting the display of all items
 
 };
-
+//function to ask if the user wants to buy again and if not, it will exit the app
 function buyAgain() {
     inquirer.prompt({
         name: "again",
