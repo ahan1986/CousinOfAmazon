@@ -25,16 +25,16 @@ function askingTwoQuestions() {
             type: "list",
             message: "What is the ID of the product you would like to buy?",
             choices: [
-                `ID#: ${resp[0].item_id} Product: ${resp[0].product_name} Price $${resp[0].price}`,
-                `ID#: ${resp[1].item_id} Product: ${resp[1].product_name} Price $${resp[1].price}`,
-                `ID#: ${resp[2].item_id} Product: ${resp[2].product_name} Price $${resp[2].price}`,
-                `ID#: ${resp[3].item_id} Product: ${resp[3].product_name} Price $${resp[3].price}`,
-                `ID#: ${resp[4].item_id} Product: ${resp[4].product_name} Price $${resp[4].price}`,
-                `ID#: ${resp[5].item_id} Product: ${resp[5].product_name} Price $${resp[5].price}`,
-                `ID#: ${resp[6].item_id} Product: ${resp[6].product_name} Price $${resp[6].price}`,
-                `ID#: ${resp[7].item_id} Product: ${resp[7].product_name} Price $${resp[7].price}`,
-                `ID#: ${resp[8].item_id} Product: ${resp[8].product_name} Price $${resp[8].price}`,
-                `ID#: ${resp[9].item_id} Product: ${resp[9].product_name} Price $${resp[9].price}`
+                `ID#: ${resp[0].item_id} - Product: ${resp[0].product_name} - Price: $${resp[0].price}`,
+                `ID#: ${resp[1].item_id} - Product: ${resp[1].product_name} - Price: $${resp[1].price}`,
+                `ID#: ${resp[2].item_id} - Product: ${resp[2].product_name} - Price: $${resp[2].price}`,
+                `ID#: ${resp[3].item_id} - Product: ${resp[3].product_name} - Price: $${resp[3].price}`,
+                `ID#: ${resp[4].item_id} - Product: ${resp[4].product_name} - Price: $${resp[4].price}`,
+                `ID#: ${resp[5].item_id} - Product: ${resp[5].product_name} - Price: $${resp[5].price}`,
+                `ID#: ${resp[6].item_id} - Product: ${resp[6].product_name} - Price: $${resp[6].price}`,
+                `ID#: ${resp[7].item_id} - Product: ${resp[7].product_name} - Price: $${resp[7].price}`,
+                `ID#: ${resp[8].item_id} - Product: ${resp[8].product_name} - Price: $${resp[8].price}`,
+                `ID#: ${resp[9].item_id} - Product: ${resp[9].product_name} - Price: $${resp[9].price}`
             ]
         }).then(function (answer) {
             //===== query start
