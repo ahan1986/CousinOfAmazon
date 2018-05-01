@@ -6,7 +6,7 @@ const conn = mysql.createConnection({
     host: "localhost",
     port: 3306,
     user: "root",
-    password: "vtr4k8hp",
+    password: "",
     database: "bamazon"
 });
 
@@ -25,7 +25,8 @@ function repeatToFront() {
             "View Products for Sale",
             "View Low Inventory",
             "Add to Inventory",
-            "Add New Product"
+            "Add New Product",
+            "Exit"
         ],
         message: "Menu List Options"
 
@@ -145,6 +146,9 @@ function repeatToFront() {
                 setTimeout(repeatToFront, 4000);
             });
                 break;
+
+                default:
+                process.exit();
         }
     })
     //====================Inquirer END ===============================
